@@ -34,6 +34,7 @@ public class TestController {
 
     @Autowired
     private RedisTemplate<String, Message> redisTemplate;
+    //this is specific to People message. It would be different for different message type
     private final ProtobufSerializer<People> serializer = new ProtobufSerializer<People>(People.class);
 
     @GetMapping("/person/{id}")

@@ -1,0 +1,66 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.1'
+	id 'io.spring.dependency-management' version '1.1.4'
+    id 'com.google.protobuf' version '0.8.19'
+}
+
+group 'org.protobuf'
+version '1.0-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    //be careful with version compatibility between redis and jedis
+    implementation 'org.springframework.data:spring-data-redis:3.0.6'
+    implementation 'redis.clients:jedis:5.0.2'
+
+    compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'org.testng:testng:7.1.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+    implementation 'org.msgpack:jackson-dataformat-msgpack:0.9.6'
+    implementation 'org.apache.commons:commons-lang3:3.14.0'
+    implementation 'com.google.protobuf:protobuf-java:3.21.4'
+
+    //be careful when adding jackson library. It might conflict with built in library
+    //provided by spring boot and run fails.
+    //implementation 'com.fasterxml.jackson.core:jackson-databind:2.13.3'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+
+protobuf {
+    protoc {
+        //path = '/usr/local/bin'
+        artifact = 'com.google.protobuf:protoc:3.21.4'
+        generatedFilesBaseDir = "$projectDir/src"
+    }
+}
+
+sourceSets {
+    main {
+        proto {
+            srcDir 'src/protos'
+        }
+    }
+}

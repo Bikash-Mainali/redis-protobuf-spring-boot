@@ -1,0 +1,1 @@
+{"person":[{"name":"person1","address":[{"street":"street1","number":100},{"street":"street2","number":101}],"mobile":["9999999999"],"email":["person1@example.com"]},{"name":"person2","address":[{"street":"street3","number":102}],"mobile":["8888888888"],"email":["person2@example.com"]}]}

@@ -36,7 +36,7 @@ public class TestController {
     private RedisTemplate<String, Message> redisTemplate;
     private final ProtobufSerializer<People> serializer = new ProtobufSerializer<People>(People.class);
 
-    @GetMapping("person/set/{id}")
+    @GetMapping("/person/{id}")
     //@Cacheable(key = "#id",value = "people")
     public ResponseEntity<?> getPerson(@PathVariable int id) throws IOException {
         //use redistemplate to check if exist and set to the redis or

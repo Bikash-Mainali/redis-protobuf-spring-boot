@@ -1,10 +1,10 @@
 package com.ecrr.fct.protobufs;
 
 import com.google.protobuf.Message;
-import com.google.protobuf.Method;
 import org.springframework.data.redis.serializer.RedisSerializer;
 import org.springframework.data.redis.serializer.SerializationException;
 
+import java.lang.reflect.Method;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -14,11 +14,12 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ProtobufSerializer<T extends Message> implements RedisSerializer<T> {
 
-    private static final ConcurrentHashMap<Class<?>, Method> methodCache = new ConcurrentHashMap<Class<?>, Method>();
+    private static final ConcurrentHashMap<Class<?>, java.lang.reflect.Method> methodCache = new ConcurrentHashMap<Class<?>, java.lang.reflect.Method>();
 
+    private final Class<T> clazz;
 
-    public ProtobufSerializer() {
-
+    public ProtobufSerializer(Class<T> clazz){
+        this.clazz= clazz;
     }
 
     @Override
@@ -28,12 +29,27 @@ public class ProtobufSerializer<T extends Message> implements RedisSerializer<T>
 
     @Override
     public T deserialize(byte[] bytes) throws SerializationException {
-//        try {
-//            T message = clazz.getDeclaredConstructor().newInstance();
-//            return (T) message.newBuilderForType().mergeFrom(bytes).build();
-//        } catch (Exception e) {
-//            throw new SerializationException("Error deserializing com.ecrr.fct.protobuf", e);
-//        }
-        return null;
+        T t = null;
+        if (bytes != null) {
+            try {
+                t = parseFrom(clazz, bytes);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return t;
+    }
+
+    /**
+     * Create a new {@code Message.Builder} instance for the given class.
+     * <p>This method uses a ConcurrentHashMap for caching method lookups.
+     */
+    private T parseFrom(Class<? extends Message> clazz,byte[] bytes) throws Exception {
+        Method method = methodCache.get(clazz);
+        if (method == null) {
+            method = clazz.getMethod("parseFrom", byte[].class);
+            methodCache.put(clazz, method);
+        }
+        return (T) method.invoke(clazz, bytes);
     }
 }

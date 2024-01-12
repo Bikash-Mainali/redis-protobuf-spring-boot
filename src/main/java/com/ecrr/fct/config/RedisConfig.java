@@ -1,6 +1,8 @@
 package com.ecrr.fct.config;
 
+import com.ecrr.fct.protobufgenerated.People;
 import com.ecrr.fct.protobufs.ProtobufSerializer;
+import com.google.protobuf.Message;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -12,6 +14,7 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
+import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 
 import java.time.Duration;
 
@@ -19,6 +22,12 @@ import java.time.Duration;
 @EnableRedisRepositories
 @ComponentScan("com.ecrr.fct")
 public class RedisConfig {
+
+    //if you want to produce protobuf formatted response body to the client/consumer through rest API
+//    @Bean
+//    ProtobufHttpMessageConverter protobufHttpMessageConverter() {
+//        return new ProtobufHttpMessageConverter();
+//    }
 
     @Bean
     public JedisConnectionFactory connectionFactory() {
@@ -29,15 +38,13 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, Object> template() {
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
+    public RedisTemplate<String, Message> template() {
+        RedisTemplate<String, Message> template = new RedisTemplate<>();
         template.setConnectionFactory(connectionFactory());
         template.setKeySerializer(new GenericToStringSerializer(Object.class));
-//        template.setHashKeySerializer(new Jackson2JsonRedisSerializer(Object.class));
-//
-        template.setValueSerializer(new ProtobufSerializer<>());
-//        template.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
-
+//      template.setHashKeySerializer(new Jackson2JsonRedisSerializer(Object.class));
+        //template.setValueSerializer(new ProtobufSerializer<>(Message.class));
+//      template.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
         template.setEnableTransactionSupport(true);
         template.afterPropertiesSet();
         return template;

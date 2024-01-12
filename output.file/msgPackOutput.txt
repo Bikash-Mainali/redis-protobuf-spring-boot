@@ -1,0 +1,1 @@
+¦person’„¤name§person1§address’‚¦street§street1¦numberd‚¦street§street2¦numbere¦mobile‘ª9999999999¥email‘³person1@example.com„¤name§person2§address‘‚¦street§street3¦numberf¦mobile‘ª8888888888¥email‘³person2@example.com

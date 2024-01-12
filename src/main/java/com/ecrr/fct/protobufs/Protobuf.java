@@ -16,7 +16,7 @@ import java.util.Arrays;
 public
 class Protobuf {
 
-    public static String outputPath = "./protoOutput.txt";
+    public static String outputPath = "./output.file/protoOutput.txt";
 
     public static void main(String[] args) throws IOException {
         Protobuf protobuf = new Protobuf();

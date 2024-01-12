@@ -14,7 +14,7 @@ public class MsgPack {
 
     MessagePackSerializer msgPackSerializer = new MessagePackSerializer();
     static MsgPack msgPack = new MsgPack();
-    public static String outputPath = "./msgPackOutput";
+    public static String outputPath = "./output.file/msgPackOutput.txt";
 
     public static void main(String[] args) throws IOException {
         People people = msgPack.generatePeopleClass();

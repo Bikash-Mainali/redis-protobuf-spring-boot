@@ -13,7 +13,7 @@ import java.util.Collections;
 
 public class Json {
 
-    public static String outputPath = "./jsonOutput";
+    public static String outputPath = "./output.file/jsonOutput.txt";
 
     public static void main(String[] args) throws IOException {
         Json json = new Json();

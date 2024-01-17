@@ -18,8 +18,8 @@ public class ProtobufSerializer<T extends Message> implements RedisSerializer<T>
 
     private final Class<T> clazz;
 
-    public ProtobufSerializer(Class<T> clazz){
-        this.clazz= clazz;
+    public ProtobufSerializer(Class<T> clazz) {
+        this.clazz = clazz;
     }
 
     @Override
@@ -35,6 +35,7 @@ public class ProtobufSerializer<T extends Message> implements RedisSerializer<T>
                 t = parseFrom(clazz, bytes);
             } catch (Exception e) {
                 e.printStackTrace();
+                System.out.println(String.format("deserilization exception", e));
             }
         }
         return t;
@@ -44,7 +45,7 @@ public class ProtobufSerializer<T extends Message> implements RedisSerializer<T>
      * Create a new {@code Message.Builder} instance for the given class.
      * <p>This method uses a ConcurrentHashMap for caching method lookups.
      */
-    private T parseFrom(Class<? extends Message> clazz,byte[] bytes) throws Exception {
+    private T parseFrom(Class<? extends Message> clazz, byte[] bytes) throws Exception {
         Method method = methodCache.get(clazz);
         if (method == null) {
             method = clazz.getMethod("parseFrom", byte[].class);

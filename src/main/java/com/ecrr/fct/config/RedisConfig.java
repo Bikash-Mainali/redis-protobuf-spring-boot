@@ -1,7 +1,6 @@
 package com.ecrr.fct.config;
 
-import com.ecrr.fct.protobufgenerated.People;
-import com.ecrr.fct.protobufs.ProtobufSerializer;
+import com.ecrr.fct.serializer.protobufs.ProtobufsSerializer;
 import com.google.protobuf.Message;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,7 +13,6 @@ import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.GenericToStringSerializer;
-import org.springframework.http.converter.protobuf.ProtobufHttpMessageConverter;
 
 import java.time.Duration;
 
@@ -43,7 +41,7 @@ public class RedisConfig {
         template.setConnectionFactory(connectionFactory());
         template.setKeySerializer(new GenericToStringSerializer(Object.class));
 //      template.setHashKeySerializer(new Jackson2JsonRedisSerializer(Object.class));
-        //template.setValueSerializer(new ProtobufSerializer<>(Message.class));
+        template.setValueSerializer(new ProtobufsSerializer<>());
 //      template.setHashValueSerializer(new Jackson2JsonRedisSerializer<>(Object.class));
         template.setEnableTransactionSupport(true);
         template.afterPropertiesSet();

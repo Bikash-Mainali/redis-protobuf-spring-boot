@@ -42,9 +42,9 @@ public final class PeopleGeneratedClass {
       "\027\n\006person\030\001 \003(\0132\007.Person\"P\n\006Person\022\014\n\004na" +
       "me\030\001 \001(\t\022\031\n\007address\030\002 \003(\0132\010.Address\022\016\n\006m" +
       "obile\030\003 \003(\t\022\r\n\005email\030\004 \003(\t\")\n\007Address\022\016\n" +
-      "\006street\030\001 \001(\t\022\016\n\006number\030\002 \001(\005B>\n\036com.ecr" +
+      "\006street\030\001 \001(\t\022\016\n\006number\030\002 \001(\005B8\n\036com.ecr" +
       "r.fct.protobufgeneratedB\024PeopleGenerated" +
-      "ClassP\001Z\004testb\006proto3"
+      "ClassP\001b\006proto3"
     };
     descriptor = com.google.protobuf.Descriptors.FileDescriptor
       .internalBuildGeneratedFileFrom(descriptorData,

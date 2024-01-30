@@ -1,17 +1,18 @@
 package com.ecrr.fct.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import lombok.*;
 
 import java.io.Serializable;
 
 @Builder
-@Getter
-@Setter
-@ToString
-public class Address  implements Serializable {
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Address implements  Serializable{
+    @JsonProperty("first_name")
     private String street;
     private int number;
 }

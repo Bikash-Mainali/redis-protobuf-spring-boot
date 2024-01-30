@@ -1,17 +1,19 @@
 package com.ecrr.fct.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.google.gson.annotations.SerializedName;
+import com.google.j2objc.annotations.Property;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Builder
-@Getter
-@Setter
-@ToString
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class People implements Serializable {
+    @JsonProperty(value = "0")
     private List<Person> person;
 }

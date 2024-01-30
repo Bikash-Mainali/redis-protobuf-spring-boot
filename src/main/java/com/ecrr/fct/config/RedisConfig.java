@@ -1,6 +1,10 @@
 package com.ecrr.fct.config;
 
+import com.ecrr.fct.model.Address;
+import com.ecrr.fct.model.People;
 import com.ecrr.fct.serializer.protobufs.ProtobufsSerializer;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.protobuf.Message;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -12,7 +16,8 @@ import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
-import org.springframework.data.redis.serializer.GenericToStringSerializer;
+import org.springframework.data.redis.serializer.*;
+import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
 import java.time.Duration;
 
@@ -48,15 +53,29 @@ public class RedisConfig {
         return template;
     }
 
+    @Bean("json")
+    public RedisTemplate<String, Object> jsonRedisTemplate() {
+        RedisTemplate<String, Object> template = new RedisTemplate<>();
+        template.setConnectionFactory(connectionFactory());
 
-    @Bean
-    public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
-        RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
-                //.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(template().getValueSerializer()))
-                //.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(template().getKeySerializer()))
-                .entryTtl(Duration.ofDays(1000));
-        return RedisCacheManager.builder(redisConnectionFactory)
-                .cacheDefaults(cacheConfiguration)
-                .build();
+        // Use Jackson serializer with alias names
+        template.setKeySerializer(new StringRedisSerializer());
+        //template.setValueSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class));
+        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+
+        template.afterPropertiesSet();
+        return template;
     }
+
+
+//    @Bean
+//    public RedisCacheManager cacheManager(RedisConnectionFactory redisConnectionFactory) {
+//        RedisCacheConfiguration cacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+//                //.serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(template().getValueSerializer()))
+//                //.serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(template().getKeySerializer()))
+//                .entryTtl(Duration.ofDays(1000));
+//        return RedisCacheManager.builder(redisConnectionFactory)
+//                .cacheDefaults(cacheConfiguration)
+//                .build();
+//    }
 }

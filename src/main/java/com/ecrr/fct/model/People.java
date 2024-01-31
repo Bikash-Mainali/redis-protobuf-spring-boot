@@ -2,6 +2,7 @@ package com.ecrr.fct.model;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSetter;
 import com.google.gson.annotations.SerializedName;
 import com.google.j2objc.annotations.Property;
 import lombok.*;
@@ -14,6 +15,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class People implements Serializable {
-    @JsonProperty(value = "0")
+    @JsonSetter(value = "0")
     private List<Person> person;
 }

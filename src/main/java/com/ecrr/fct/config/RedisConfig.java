@@ -2,6 +2,8 @@ package com.ecrr.fct.config;
 
 import com.ecrr.fct.model.Address;
 import com.ecrr.fct.model.People;
+import com.ecrr.fct.serializer.CustomObjectSerializer;
+import com.ecrr.fct.serializer.msgpack.MessagePackSerializer;
 import com.ecrr.fct.serializer.protobufs.ProtobufsSerializer;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -60,7 +62,6 @@ public class RedisConfig {
 
         // Use Jackson serializer with alias names
         template.setKeySerializer(new StringRedisSerializer());
-        //template.setValueSerializer(new Jackson2JsonRedisSerializer<Object>(Object.class));
         template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
 
         template.afterPropertiesSet();
